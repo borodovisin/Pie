@@ -22,15 +22,15 @@ echarts.registerPostUpdate(() => {
     const zrenderStorage = pie._zr.storage;
     // Get list of shapes
     zrenderStorage.updateDisplayList();
-    zrenderStorage._displayList.map(d => {
-        if (d.type === 'text') {
-            const labelBoundingRect = d.getBoundingRect();
-            const line = _.find(zrenderStorage._displayList, shape => shape.type === 'polyline' && shape.dataIndex === d.dataIndex);
+    zrenderStorage._displayList.map(shape => {
+        if (shape.type === 'text') {
+            const labelBoundingRect = shape.getBoundingRect();
+            const line = _.find(zrenderStorage._displayList, figure => figure.type === 'polyline' && shape.dataIndex === figure.dataIndex);
             if ((labelBoundingRect.x + labelBoundingRect.width + virtualPadding) > pie._zr.getWidth() || labelBoundingRect.x < virtualPadding || 
                 (labelBoundingRect.y + labelBoundingRect.height + virtualPadding) > pie._zr.getHeight() || labelBoundingRect.y < virtualPadding) {
-                d.invisible = line.invisible = true;
+                shape.invisible = line.invisible = true;
             } else {
-                d.invisible = line.invisible = false;
+                shape.invisible = line.invisible = false;
             }
         }
     });
